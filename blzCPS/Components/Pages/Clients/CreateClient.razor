@@ -1,0 +1,87 @@
+﻿@page "/newclient"
+
+@using Microsoft.EntityFrameworkCore
+@using blzCPS.Components.Models
+@using blzCPS.Components.Pages.Clients.Models
+@using blzCPS.Data
+
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject IDbContextFactory<blzCPSContext> DbFactory
+
+<h2>Create Client</h2>
+
+<EditForm Model="@Client" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="StaffMemberName">Staff Member Name</label>
+        <InputText id="StaffMemberName" class="form-control" @bind-Value="Client!.StaffMemberName" />
+    </div>
+    <div class="form-group">
+        <label for="ClientName">Client Name</label>
+        <InputText id="ClientName" class="form-control" @bind-Value="Client.ClientName" />
+    </div>
+    <div class="form-group">
+        <label for="ClientPhoneNumber">Client Phone Number</label>
+        <InputText id="ClientPhoneNumber" class="form-control" @bind-Value="Client!.ClientPhoneNumber" />
+    </div>
+    <div class="form-group">
+        <label for="ClientEmail">Client Email</label>
+        <InputText id="ClientEmail" class="form-control" @bind-Value="Client!.ClientEmail" />
+    </div>
+    <div class="form-group">
+        <label for="ClientLocation">Client Location</label>
+        <InputText id="ClientLocation" class="form-control" @bind-Value="Client!.ClientLocation" />
+    </div>
+    <div class="form-group">
+        <label for="HasBeenContacted">Has Been Contacted</label>
+        <InputSelect id="HasBeenContacted" class="form-control" @bind-Value="Client!.HasBeenContacted">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </InputSelect>
+    </div>
+    <div class="form-group">
+        <label for="ClientNotes">Client Notes</label>
+        <InputTextArea id="ClientNotes" class="form-control" @bind-Value="Client!.ClientNotes" />
+    </div>
+    <br />
+    <div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-danger">Reset</button>
+    </div>
+
+</EditForm>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger">@ErrorMessage</div>
+}
+
+@code {
+    private blzClients Client { get; set; } = new blzClients();
+    private string ErrorMessage { get; set; }
+
+    public string? StaffMemberName = null;
+    public string? ClientPhoneNumber = null;
+    public string? ClientEmail = null;
+    public string? ClientLocation = null;
+    public string? ClientNotes = null;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            using var context = DbFactory.CreateDbContext();
+            context.Clients.Add(Client);
+            await context.SaveChangesAsync();
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = "An error occurred while creating the client. Please make sure you have filled in the Clients Name and Try Again.";
+            Console.Error.WriteLine(ex);
+        }
+    }
+}
