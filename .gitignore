@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/blzCPS/Properties/PublishProfiles
+/blzCPS/Properties/ServiceDependencies/appcps - Zip Deploy
+/blzCPS/Properties/ServiceDependencies/dev-cps - Web Deploy
+/blzCPS/Properties/serviceDependencies.dev-cps - Web Deploy.json
+/blzCPS/Properties/serviceDependencies.dev-cps - Web Deploy.json.user
