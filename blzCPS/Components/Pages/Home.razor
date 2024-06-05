@@ -1,0 +1,43 @@
+﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using blzCPS.Data
+
+@inject IDbContextFactory<blzCPSContext> DbFactory
+
+<PageTitle>CPS Management Application</PageTitle>
+
+<h1>Non-Member Information</h1>
+Welcome to your new app.
+<br />
+This application was developed as a single point of contact for non-members within the Care & Support Pay Equity Claim work.
+<br />
+<br />
+We will be using the non-member data relating to people covered by our Care & Support Pay Equity claim that we have been given by employers.
+<br />
+<br />
+<h4>General Guidance:</h4>
+<p>
+    <ol>Ensure your number is blocked when you ring</ol>
+    <ol>If get a voicemail hang up - we may ring them again</ol>
+    <ol>If people no longer work at named employer where are they now as they may still be under coverage?</ol>
+    <ol>If you get a response requesting industrial assistance please refer them to ring 0508 367 772</ol>
+    <ol>Please ensure you cover off the highlighted text</ol>
+</p>
+
+
+@* @code {
+    protected override void OnInitialized()
+    {
+        using var context = DbFactory.CreateDbContext();
+        try
+        {
+            context.Database.CanConnect();
+            Console.WriteLine("Database connection successful");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database connection failed: {ex.Message}");
+            throw;
+        }
+    }
+} *@

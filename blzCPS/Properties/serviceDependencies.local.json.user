@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2024-05-21T02:49:08.5219966Z"
+    },
+    "identityapp1": {
+      "restored": true,
+      "restoreTime": "2024-06-02T22:13:55.435035Z"
+    },
+    "appInsights1": {
+      "restored": true,
+      "restoreTime": "2024-06-03T23:37:16.5389315Z"
+    }
+  },
+  "parameters": {
+    "appInsights1.resourceGroupName": {
+      "Name": "appInsights1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "rg-dev-cps"
+    },
+    "appInsights1.subscriptionId": {
+      "Name": "appInsights1.subscriptionId",
+      "Type": "subscription",
+      "Value": "0656d176-b6af-4109-8b79-ef289c50c353"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+﻿@page "/view-client"
+
+@using Microsoft.EntityFrameworkCore
+@using blzCPS.Components.Models
+@using blzCPS.Components.Pages.Clients.Models
+@using blzCPS.Data
+
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject IDbContextFactory<blzCPSContext> DbFactory
+
+<PageTitle>View</PageTitle>
+
+@code {
+    public int ClientId { get; set; }
+
+    private List<blzClients>? Clients { get; set; } = new List<blzClients>();
+    private bool Loading { get; set; } = true;
+    private bool NotFound { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Clients = await context.Clients.ToListAsync();
+        Loading = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        using var context = DbFactory.CreateDbContext();
+        try
+        {
+            context.Database.CanConnect();
+            Console.WriteLine("Database connection successful");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database connection failed: {ex.Message}");
+            throw;
+        }
+    }
+
+    private void NavigateToDetails(int ClientID)
+    {
+        Navigation.NavigateTo($"/clientdetails/{ClientID}");
+    }
+    private void NavigateToEdit(int ClientID)
+    {
+        Navigation.NavigateTo($"/editclient/{ClientID}");
+    }
+    // private void NavigateToDelete(int ClientID)
+    // {
+    //     Navigation.NavigateTo($"/deleteclient/{ClientID}");
+    // }
+
+}
+
+
+<h1>Data List</h1>
+
+@if (Clients is null || Loading)
+{
+    <div class="alert alert-info">Loading...</div>
+}
+else if (Clients.Count == 0)
+{
+    <div class="alert alert-warning">No data found.</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Staff Member Name</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Location</th>
+                <th>Has Been Contacted</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Client in Clients)
+            {
+                <tr>
+                    <td>@(Client.ClientId)</td>
+                    <td>@(Client.StaffMemberName ?? "N/A")</td>
+                    <td>@(Client.ClientName ?? "N/A")</td>
+                    <td>@(Client.ClientPhoneNumber ?? "N/A")</td>
+                    <td>@(Client.ClientEmail ?? "N/A")</td>
+                    <td>@(Client.ClientLocation ?? "N/A")</td>
+                    <td>@(Client.HasBeenContacted.ToString() ?? "N/A")</td>
+                    <td>@(Client.ClientNotes ?? "N/A")</td>
+                    <td>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <a href="/clientdetails/@Client.ClientId" class="btn btn-primary">Details</a>
+                            <a href="/edit/@Client.ClientId" class="btn btn-info">Edit</a>
+                            @* <a href="/deleteclient/@Client.ClientId" class="btn btn-danger">Delete</a> *@
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

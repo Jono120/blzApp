@@ -1,0 +1,94 @@
+﻿@page "/edit/{ClientId:int}"
+
+@using Microsoft.EntityFrameworkCore
+@using blzCPS.Components.Models
+@using blzCPS.Components.Pages.Clients.Models
+@using blzCPS.Data
+
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject IDbContextFactory<blzCPSContext> DbFactory
+
+<PageTitle>Update</PageTitle>
+
+<h1>Edit Client</h1>
+
+<h4>Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@Client" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="StaffMemberName">Staff Member Name</label>
+                <InputText id="StaffMemberName" class="form-control" @bind-Value="Client!.StaffMemberName" />
+                <ValidationMessage For="@(() => Client.StaffMemberName)" />
+            </div>
+            <div class="form-group">
+                <label for="ClientName">Name</label>
+                <InputText id="ClientName" class="form-control" @bind-Value="Client.ClientName" />
+                <ValidationMessage For="@(() => Client.ClientName)" />
+            </div>
+            <div class="form-group">
+                <label for="ClientPhoneNumber">Phone Number</label>
+                <InputText id="ClientPhoneNumber" class="form-control" @bind-Value="Client!.ClientPhoneNumber" />
+                <ValidationMessage For="@(() => Client.ClientPhoneNumber)" />
+            </div>
+            <div class="form-group">
+                <label for="ClientEmail">Email</label>
+                <InputText id="ClientEmail" class="form-control" @bind-Value="Client!.ClientEmail" />
+                <ValidationMessage For="@(() => Client.ClientEmail)" />
+            </div>
+            <div class="form-group">
+                <label for="ClientLocation">Location</label>
+                <InputText id="ClientLocation" class="form-control" @bind-Value="Client!.ClientLocation" />
+                <ValidationMessage For="@(() => Client.ClientLocation)" />
+            </div>
+            <div class="form-group">
+                <label for="HasBeenContacted">Has Been Contacted</label>
+                <InputSelect id="HasBeenContacted" class="form-control" @bind-Value="Client!.HasBeenContacted">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="ClientNotes">Notes</label>
+                <InputTextArea id="ClientNotes" class="form-control" @bind-Value="Client!.ClientNotes" />
+                <ValidationMessage For="@(() => Client.ClientNotes)" />
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button @onclick="GoBack" class=" btn btn-danger">Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int ClientId { get; set; }
+
+    private blzClients Client { get; set; } = new blzClients();
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Client = await context.Clients.FindAsync(ClientId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Clients.Update(Client);
+        await context.SaveChangesAsync();
+        Navigation.NavigateTo($"/clientdetails/{ClientId}");
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo($"/clientdetails/{ClientId}");
+    }
+}
