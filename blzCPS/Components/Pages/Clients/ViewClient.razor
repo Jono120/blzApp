@@ -1,4 +1,4 @@
-﻿@page "/view-client"
+﻿@page "/view"
 
 @using Microsoft.EntityFrameworkCore
 @using blzCPS.Components.Models
@@ -42,15 +42,15 @@
 
     private void NavigateToDetails(int ClientID)
     {
-        Navigation.NavigateTo($"/clientdetails/{ClientID}");
+        Navigation.NavigateTo($"/details/{ClientID}");
     }
     private void NavigateToEdit(int ClientID)
     {
-        Navigation.NavigateTo($"/editclient/{ClientID}");
+        Navigation.NavigateTo($"/edit/{ClientID}");
     }
     // private void NavigateToDelete(int ClientID)
     // {
-    //     Navigation.NavigateTo($"/deleteclient/{ClientID}");
+    //     Navigation.NavigateTo($"/delete/{ClientID}");
     // }
 
 }
@@ -96,9 +96,9 @@ else
                     <td>@(Client.ClientNotes ?? "N/A")</td>
                     <td>
                         <div class="d-grid gap-2 col-6 mx-auto">
-                            <a href="/clientdetails/@Client.ClientId" class="btn btn-primary">Details</a>
+                            <a href="/details/@Client.ClientId" class="btn btn-primary">Details</a>
                             <a href="/edit/@Client.ClientId" class="btn btn-info">Edit</a>
-                            @* <a href="/deleteclient/@Client.ClientId" class="btn btn-danger">Delete</a> *@
+                            @* <a href="/delete/@Client.ClientId" class="btn btn-danger">Delete</a> *@
                         </div>
                     </td>
                 </tr>

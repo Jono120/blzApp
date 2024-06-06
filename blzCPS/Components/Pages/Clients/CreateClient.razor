@@ -1,4 +1,4 @@
-﻿@page "/newclient"
+﻿@page "/new"
 
 @using Microsoft.EntityFrameworkCore
 @using blzCPS.Components.Models
@@ -12,7 +12,7 @@
 <PageTitle>New</PageTitle>
 
 <h2>Create Data</h2>
-
+<p>Note: Please ensure you have added a generic line into each box, as to ensure no errors occur.</p>
 <EditForm Model="@Client" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
         <label for="HasBeenContacted">Has Been Contacted</label>
-        <InputSelect id="HasBeenContacted" class="form-control" @bind-Value="Client!.HasBeenContacted">
+        <InputSelect id="HasBeenContacted" class="form-control" @bind-Value="Client.HasBeenContacted">
             <option value="true">Yes</option>
             <option value="false">No</option>
         </InputSelect>
@@ -65,11 +65,12 @@
     private blzClients Client { get; set; } = new blzClients();
     private string ErrorMessage { get; set; }
 
-    public string? StaffMemberName = null;
-    public string? ClientPhoneNumber = null;
-    public string? ClientEmail = null;
-    public string? ClientLocation = null;
-    public string? ClientNotes = null;
+    public string? StaffMemberName { get; set; } = null;
+    public string? ClientPhoneNumber { get; set; } = null;
+    public string? ClientEmail { get; set; } = null;
+    public string? ClientLocation { get; set; } = null;
+    public bool? HasBeenContacted { get; set; } = false;
+    public string? ClientNotes { get; set; } = null;
 
     private async Task HandleValidSubmit()
     {
@@ -78,7 +79,7 @@
             using var context = DbFactory.CreateDbContext();
             context.Clients.Add(Client);
             await context.SaveChangesAsync();
-            Navigation.NavigateTo("/view-client");
+            Navigation.NavigateTo("/view");
         }
         catch (Exception ex)
         {

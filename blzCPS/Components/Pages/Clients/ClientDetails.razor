@@ -1,4 +1,4 @@
-﻿@page "/clientdetails/{ClientId:int}"
+﻿@page "/details/{ClientId:int}"
 
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Razor.TagHelpers
@@ -16,7 +16,7 @@
 <PageTitle>Details</PageTitle>
 
 @code {
-    
+
     [Parameter]
     public int ClientId { get; set; }
 
@@ -72,6 +72,6 @@ else
     </div>
     <div class="d-row gap-2 d-md-block">
         <a href="/edit/@Clients.ClientId" class="btn btn-primary">Edit</a>
-        <a href="/view-client" class="btn btn-secondary">Back to List</a>
+        <a href="/view" class="btn btn-secondary">Back to List</a>
     </div>
 }

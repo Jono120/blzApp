@@ -9,9 +9,9 @@
 @inject NavigationManager Navigation
 @inject IDbContextFactory<blzCPSContext> DbFactory
 
-<PageTitle>Update</PageTitle>
+<PageTitle>Edit</PageTitle>
 
-<h1>Edit Client</h1>
+<h1>Edit</h1>
 
 <h4>Details</h4>
 <hr />
@@ -84,11 +84,11 @@
         using var context = DbFactory.CreateDbContext();
         context.Clients.Update(Client);
         await context.SaveChangesAsync();
-        Navigation.NavigateTo($"/clientdetails/{ClientId}");
+        Navigation.NavigateTo($"/details/{ClientId}");
     }
 
     private void GoBack()
     {
-        Navigation.NavigateTo($"/clientdetails/{ClientId}");
+        Navigation.NavigateTo($"/details/{ClientId}");
     }
 }
